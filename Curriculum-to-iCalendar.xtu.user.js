@@ -12,9 +12,9 @@
 (function () {
   'use strict';
   // 设置上课时间及下课时间
-  let class_start_summer = [[], [8, 0], [9, 40], [10, 10], [11, 50], [14, 30], [16, 10], [16, 40], [18, 10], [19, 30], [22, 5]];
-  let class_start_winter = [[], [8, 0], [9, 40], [10, 10], [11, 50], [14, 0], [15, 40], [16, 10], [17, 40], [19, 0], [21, 35]];
-  // let class_time = 100;
+  let class_start_summer = [[], [8, 0], [10, 10], [14, 30], [16, 40], [19, 30]];
+  let class_start_winter = [[], [8, 0], [10, 10], [14, 0], [16, 10], [19, 0]];
+  let class_time = 100;
   // let weekToNum = { "日": 0, "一": 1, "二": 2, "三": 3, "四": 4, "五": 5, "六": 6 }
   let weekRegexp = /(?:(\d{1,2}-\d{1,2})|(\d{1,2})\(单周\))/g
   let nowDate = new Date();
@@ -101,11 +101,9 @@
                   let startTime = [];
                   let endTime = [];
                   if (isSummerTime) {
-                    startTime = class_start_summer[2 * i - 1];
-                    endTime = class_start_summer[2 * i];
+                    startTime = class_start_summer[i];
                   } else {
-                    startTime = class_start_winter[2 * i - 1];
-                    endTime = class_start_winter[2 * i];
+                    startTime = class_start_winter[i];
                   }
                   // 按照多周划分后迭代
                   for (let weekStrs = weekRegexp.exec(weeksStr); weekStrs !== null; weekStrs = weekRegexp.exec(weeksStr)) {
@@ -126,10 +124,10 @@
                     startDate.setDate(startDate.getDate() + (startWeek - 1) * 7 + weekDay - 1);
                     startDate.setHours(startTime[0], startTime[1], 0, 0);
                     endDate.setDate(endDate.getDate() + (startWeek - 1) * 7 + weekDay - 1);
-                    endDate.setHours(endTime[0], endTime[1]);
+                    endDate.setHours(startTime[0] + parseInt((startTime[1] + class_time) / 60), (startTime[1] + class_time) % 60);
                     // 课程截止
-                    untilDate.setDate(untilDate.getDate() + (endWeek - 1) * 7 + weekDay);
-                    untilDate.setHours(endTime[0], endTime[1]);
+                    untilDate.setDate(untilDate.getDate() + (endWeek - 1) * 7 + weekDay); // 加一天使最后一周有效
+                    untilDate.setHours(startTime[0] + parseInt((startTime[1] + class_time) / 60), (startTime[1] + class_time) % 60);
                     calendarEvents.push([
                       'BEGIN:VEVENT',
                       'DTSTAMP:' + toString(nowDate),
