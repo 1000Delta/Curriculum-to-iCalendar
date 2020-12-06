@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         课表助手 - xtu
 // @namespace    http://tampermonkey.net/
-// @version      0.1.1
-// @description  一键导出课表为ics文件
+// @version      1.0.0
+// @description  一键导出课表/考试安排为ics文件
 // @author       DeltaX
 // @match        http://jwxt.xtu.edu.cn/jsxsd/*
 // @require      https://cdn.bootcdn.net/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
